@@ -1,0 +1,14 @@
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\bin\Debug\netcoreapp2.2\CoreGram.deps.json
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\bin\Debug\netcoreapp2.2\CoreGram.runtimeconfig.json
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\bin\Debug\netcoreapp2.2\CoreGram.runtimeconfig.dev.json
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\bin\Debug\netcoreapp2.2\CoreGram.dll
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\bin\Debug\netcoreapp2.2\CoreGram.pdb
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.csproj.CoreCompileInputs.cache
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.RazorAssemblyInfo.cache
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.RazorAssemblyInfo.cs
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.AssemblyInfoInputs.cache
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.AssemblyInfo.cs
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.RazorTargetAssemblyInfo.cache
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.dll
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.pdb
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.csprojAssemblyReference.cache
