@@ -6,20 +6,19 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoreGram.Data.Model
-{   
-    [Table("Users")]
-    public class User
-    {
+{
+    [Table("UsersProfile")]
+    public class UserProfile
+    {   
         [Key]
         public int Id { get; set; }
 
-        [Column("UserName",TypeName="nvarchar(150)")]
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        [Column("FullName", TypeName="nvarchar(150)")]
+        public string FullName { get; set; }
+        public string Image { get; set; }
 
-       
+        [ForeignKey("UserId")]
+        public UserProfile User { get; set; }
 
-        
     }
 }

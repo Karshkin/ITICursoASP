@@ -54,7 +54,11 @@ namespace CoreGram
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InstagramDBScaffold"));
+
+            services.AddTransient<UserRepository>();
+            services.AddTransient<UserProfileRepository>();
+            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InstagramDBScaffold"));
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>{
 
@@ -64,7 +68,7 @@ namespace CoreGram
                     options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                     options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
                 });
-            services.AddScoped(typeof(UserRepository));
+            services.AddScoped(typeof(UserProfileRepository));
             
         }
 

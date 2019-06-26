@@ -28,7 +28,8 @@ namespace CoreGram.Controllers
                     User user = new User
                     {
                         Login = "User"+i,
-                        Password = "Pass"+i
+                        Password = "Pass"+i,
+                        Email = "Email"+i+"@test.com"
                     };
                     _context.Add(user);
                 }

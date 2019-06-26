@@ -15,5 +15,6 @@ namespace CoreGram.Data
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<UserProfile> UserProfile { get; set; }
     }
 }
