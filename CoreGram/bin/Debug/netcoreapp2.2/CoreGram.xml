@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CoreGram</name>
+    </assembly>
+    <members>
+        <member name="M:CoreGram.Controllers.UserController.GetAll">
+            <summary>
+            Listado de Usuarios
+            </summary>
+            <remarks>
+            Ejemplo de peticion:
+            
+                GET /user
+                {
+                
+                }
+            </remarks>
+            <returns>Listado de los usuarios de la base de datos</returns>
+            <response code="200">Devuelve el listado de los usuarios de la base de datos</response>
+            <response code="400">Cuerpo de petición erroneo</response>
+        </member>
+        <member name="M:CoreGram.Controllers.UserController.Get(System.Int32)">
+            <summary>
+            Detalle de usuario
+            </summary>
+            <remarks>
+            Ejemplo de peticion:
+            
+                GET /user/1
+                {
+                
+                }
+            </remarks>
+            <returns>Usuario del id</returns>
+            <response code="200">Devuelve el usuario del id indicado</response>
+            <response code="400">Cuerpo de petición erroneo</response>
+        </member>
+        <member name="M:CoreGram.Controllers.UserController.Post(CoreGram.Data.Model.User)">
+            <summary>
+            Inserción de usuario
+            </summary>
+            <remarks>
+            Ejemplo de peticion:
+            
+                POST /user
+                {
+                    "id":0,
+                    "Login":"Usuario1",
+                    "Password":"Pass1"
+                }
+            </remarks>
+            <param name="item"></param>
+            <returns>Usuario recién creado</returns>
+            <response code="200">Devuelve el usuario creado recientemente</response>
+            <response code="400">Cuerpo de petición erroneo</response>
+        </member>
+        <member name="M:CoreGram.Controllers.UserController.Put(System.Int32,CoreGram.Data.Model.User)">
+            <summary>
+            Modificación de usuario
+            </summary>
+            <remarks>
+            Ejemplo de peticion:
+            
+                PUT /user/1
+                {
+                    "id":1,
+                    "Login":"Usuario1",
+                    "Password":"Pass1"
+                }
+            </remarks>
+            <param name="item"></param>
+            <returns>Usuario recién modificado</returns>
+            <response code="200">Devuelve el usuario modificado recientemente</response>
+            <response code="400">Cuerpo de petición erroneo</response>
+        </member>
+        <member name="M:CoreGram.Controllers.UserController.Delete(System.Int32)">
+            <summary>
+            Eliminado de usuario
+            </summary>
+            <remarks>
+            Ejemplo de peticion:
+            
+                Delete /user/1
+                {
+                    
+                }
+            </remarks>
+            <param name="id"></param>
+            <returns>OK con el usuario eliminado recientemente</returns>
+            <response code="200">Devuelve el id del usuario eliminado recientemente</response>
+            <response code="400">Cuerpo de petición erroneo</response>
+        </member>
+    </members>
+</doc>

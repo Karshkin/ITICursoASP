@@ -20,7 +20,7 @@
     "CoreGram": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/user",
+      "launchUrl": "swagger/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

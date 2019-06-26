@@ -12,3 +12,4 @@ C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2
 C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.dll
 C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.pdb
 C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\obj\Debug\netcoreapp2.2\CoreGram.csprojAssemblyReference.cache
+C:\Users\aulafor\Desktop\webapiproyect\CoreGram\CoreGram\bin\Debug\netcoreapp2.2\CoreGram.xml
