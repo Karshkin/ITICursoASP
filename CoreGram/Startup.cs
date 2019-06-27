@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using CoreGram.Data;
+using CoreGram.Helpers;
+using CoreGram.Registers;
 using CoreGram.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,48 +36,72 @@ namespace CoreGram
         {
             services.AddCors();
 
-            services.AddSwaggerGen(c => 
+            // Configuración y registro de automapper
+            var mappingConfig = new MapperConfiguration(mc =>
             {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Title = "Coregram API",
-                    Version = "v1",
-                    Description = "Api del proyecto CoreGram",
-                    TermsOfService = "None",
-                    Contact = new Contact
-                    {
-                        Name = "Miguel Lara",
-                        Email = string.Empty,
-                        Url = "https://localhost:5001/api/user"
-                    }
-                });
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                mc.AddProfile(new MappingProfile());
             });
 
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
-            services.AddTransient<UserRepository>();
-            services.AddTransient<UserProfileRepository>();
-            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InstagramDBScaffold"));
+            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InstagramDB"));
+
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options =>{
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => {
+
+                    //options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
 
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
                     options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
+
                 });
-            services.AddScoped(typeof(UserProfileRepository));
-            
+
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Info
+            //    {
+            //        Title = "Instagram API",
+            //        Version = "v1",
+            //        Description = "Práctica del curso de ASP.NET Core",
+            //        Contact = new Contact
+            //        {
+            //            Name = "Alberto Reyes",
+            //            Email = "areyes@iti.es",
+            //            Url = "http://www.iti.es"
+            //        }
+            //    });
+
+            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            //    c.IncludeXmlComments(xmlPath);
+
+            //});
+
+            //services.AddTransient(typeof(UserRepository));
+            //services.AddTransient<IUserRepository, UserRepository>();
+            //services.AddTransient<UserRepository>();
+            //services.AddTransient<UserProfileRepository>();
+
+            services.addCustomRegisters();
+            services.addSwaggerRegisters();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -84,12 +111,9 @@ namespace CoreGram
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coregram API V1");
-            });
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }

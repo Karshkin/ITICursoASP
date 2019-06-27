@@ -1,6 +1,8 @@
-﻿using CoreGram.Data;
+﻿using AutoMapper;
+using CoreGram.Data;
+using CoreGram.Data.Dto;
 using CoreGram.Data.Model;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +13,37 @@ namespace CoreGram.Repositories
     public class UserRepository
     {
         private readonly DataContext _context;
-
-        public UserRepository(
-            DataContext context
-        )
+        private readonly IMapper _mapper;
+        public UserRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        [HttpGet]
-        public List<User> GetAll()
+        public List<UserInfoDto> GetAll()
         {
-            return _context.User.ToList();
+            var model = _context.Users.Include(x => x.Profile).ToList();
+            var response = _mapper.Map<List<User>, List<UserInfoDto>>(model);
+            return response;
         }
 
-        [HttpGet("{id}")]
-        public User Get(int id)
+        public UserInfoDto GetById(int userId)
         {
-            return _context.User.Find(id);
+            //var user = _context.Users.Find(userId);
+
+            var user = _context.Users
+                .Where(x => x.Id == userId)
+                .Include(x => x.Profile)
+                .FirstOrDefault();
+
+            if (user == null)
+            {
+                throw new Exception("Usuario no encontrado");
+            }
+
+            var response = _mapper.Map<UserInfoDto>(user);
+
+            return response;
         }
-    } 
+    }
 }

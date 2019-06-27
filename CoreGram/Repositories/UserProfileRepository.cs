@@ -1,6 +1,7 @@
-﻿using CoreGram.Data;
+﻿using AutoMapper;
+using CoreGram.Data;
+using CoreGram.Data.Dto;
 using CoreGram.Data.Model;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,22 +12,29 @@ namespace CoreGram.Repositories
     public class UserProfileRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public UserProfileRepository(DataContext context)
+        public UserProfileRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        [HttpGet]
-        public List<UserProfile> GetAll()
+        public List<UserProfileDto> GetAll()
         {
-            return _context.UserProfile.ToList();
+            var model = _context.UsersProfiles.ToList();
+            return _mapper.Map<List<UserProfile>, List<UserProfileDto>>(model);
         }
 
-        [HttpGet("{id}")]
-        public UserProfile Get(int id)
+        public UserProfileDto GetById(int profileId)
         {
-            return _context.UserProfile.Find(id);
+            var model = _context.UsersProfiles.Find(profileId);
+            if (model == null)
+            {
+                throw new Exception("Perfil de usuario no encontrado");
+            }
+
+            return _mapper.Map<UserProfileDto>(model);
         }
     }
 }

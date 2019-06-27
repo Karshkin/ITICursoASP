@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreGram.Data;
+using CoreGram.Data.Dto;
 using CoreGram.Data.Model;
 using CoreGram.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -15,157 +16,105 @@ namespace CoreGram.Controllers
     public class UserController : ControllerBase
     {
         DataContext _context;
-        UserRepository _userRepository;
+        UserRepository _repository;
 
-        public UserController(DataContext context, UserRepository userRepository)
+        public UserController(DataContext context, UserRepository repository)
         {
             _context = context;
-            _userRepository = userRepository;
-            if (_context.User.Count() == 0)
-            {   
-                for (int i = 0; i < 10; i++)
+            _repository = repository;
+
+            if (_context.Users.Count() == 0)
+            {
+                User user1 = new User
                 {
-                    User user = new User
-                    {
-                        Login = "User"+i,
-                        Password = "Pass"+i,
-                        Email = "Email"+i+"@test.com"
-                    };
-                    _context.Add(user);
-                }
-               
+                    Login = "Usuario1",
+                    Password = "Password"
+                };
+
+                User user2 = new User
+                {
+                    Login = "Usuario2",
+                    Password = "Password"
+                };
+
+                _context.Add(user1);
+                _context.Add(user2);
                 _context.SaveChanges();
             }
         }
 
-        // GET api/user
+        // GET api/users
         /// <summary>
-        /// Listado de Usuarios
+        /// Obtiene el listado de todos los usuarios
         /// </summary>
-        /// <remarks>
-        /// Ejemplo de peticion:
-        /// 
-        ///     GET /user
-        ///     {
-        ///     
-        ///     }
-        /// </remarks>
-        /// <returns>Listado de los usuarios de la base de datos</returns>
-        /// <response code="200">Devuelve el listado de los usuarios de la base de datos</response>
-        /// <response code="400">Cuerpo de petición erroneo</response>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult<List<User>> GetAll()
+        public ActionResult<List<UserInfoDto>> GetAll()
         {
-            return _userRepository.GetAll();
+            return _repository.GetAll();
         }
 
-        // GET api/user/5
         /// <summary>
-        /// Detalle de usuario
+        /// Obtiene la información de un usuario
         /// </summary>
-        /// <remarks>
-        /// Ejemplo de peticion:
-        /// 
-        ///     GET /user/1
-        ///     {
-        ///     
-        ///     }
-        /// </remarks>
-        /// <returns>Usuario del id</returns>
-        /// <response code="200">Devuelve el usuario del id indicado</response>
-        /// <response code="400">Cuerpo de petición erroneo</response>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id)
+        public ActionResult<UserInfoDto> GetById(int id)
         {
-            return await _context.User.FindAsync(id);
+            return _repository.GetById(id);
         }
 
-        // POST api/user
         /// <summary>
-        /// Inserción de usuario
+        /// Añade un usuario
         /// </summary>
-        /// <remarks>
-        /// Ejemplo de peticion:
-        /// 
-        ///     POST /user
-        ///     {
-        ///         "id":0,
-        ///         "Login":"Usuario1",
-        ///         "Password":"Pass1"
-        ///     }
-        /// </remarks>
         /// <param name="item"></param>
-        /// <returns>Usuario recién creado</returns>
-        /// <response code="200">Devuelve el usuario creado recientemente</response>
-        /// <response code="400">Cuerpo de petición erroneo</response>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User item)
         {
-            _context.User.Add(item);
+            await _context.Users.AddAsync(item);
             await _context.SaveChangesAsync();
             return Ok(item);
         }
 
-        // PUT api/user/5
         /// <summary>
-        /// Modificación de usuario
+        /// Actualiza la información de un usuario
         /// </summary>
-        /// <remarks>
-        /// Ejemplo de peticion:
-        /// 
-        ///     PUT /user/1
-        ///     {
-        ///         "id":1,
-        ///         "Login":"Usuario1",
-        ///         "Password":"Pass1"
-        ///     }
-        /// </remarks>
+        /// <param name="id"></param>
         /// <param name="item"></param>
-        /// <returns>Usuario recién modificado</returns>
-        /// <response code="200">Devuelve el usuario modificado recientemente</response>
-        /// <response code="400">Cuerpo de petición erroneo</response>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] User item)
-        {   
+        {
             if (id != item.Id)
             {
-                throw new Exception("Mal");
+                return BadRequest();
             }
 
-            _context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(item).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return Ok(item);
         }
 
-        // DELETE api/user/5
         /// <summary>
-        /// Eliminado de usuario
+        /// Elimina un usuario
         /// </summary>
-        /// <remarks>
-        /// Ejemplo de peticion:
-        /// 
-        ///     Delete /user/1
-        ///     {
-        ///         
-        ///     }
-        /// </remarks>
         /// <param name="id"></param>
-        /// <returns>OK con el usuario eliminado recientemente</returns>
-        /// <response code="200">Devuelve el id del usuario eliminado recientemente</response>
-        /// <response code="400">Cuerpo de petición erroneo</response>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var userFinder = _context.User.Find(id);
-            
-            if (userFinder == null)
+            var userFinded = await _context.Users.FindAsync(id);
+
+            if (userFinded == null)
             {
-                throw new Exception("El usuario no existe");
+                return NotFound();
             }
 
-            _context.Remove(userFinder);
+            _context.Remove(userFinded);
             await _context.SaveChangesAsync();
-            return Ok(id);
+            return Ok(userFinded);
         }
     }
 }

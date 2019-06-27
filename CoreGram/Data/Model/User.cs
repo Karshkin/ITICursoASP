@@ -6,20 +6,22 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoreGram.Data.Model
-{   
+{
     [Table("Users")]
     public class User
-    {
+    {        
         [Key]
         public int Id { get; set; }
 
-        [Column("UserName",TypeName="nvarchar(150)")]
+        [MaxLength(20)]
+        [Column("UserName")]
         public string Login { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
 
-       
+        public UserProfile Profile { get; set; }
 
-        
+        public IEnumerable<Follower> UserFollowers { get; set; }
+        public IEnumerable<Follower> UserFollowings { get; set; }
     }
 }
